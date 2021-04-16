@@ -98,6 +98,12 @@ let lintJS = () => {
         .pipe(jsLinter.formatEach(`compact`, process.stderr));
 };
 
+let lintCSS =  () => {
+    return src('dev/*.html')
+        .pipe(htmlCompressor({collapseWhitespace: true}))
+        .pipe(dest('prod/'));
+};
+
 let copyUnprocessedAssetsForProd = () => {
     return src([
         `dev/*.*`,       // Source all files,
