@@ -58,7 +58,7 @@ let compileCSSForProd = () => {
             outputStyle: `compressed`,
             precision: 10
         }).on(`error`, sass.logError))
-        .pipe(dest(`prod/styles`));
+        .pipe(dest(`prod/css`));
 };
 
 let transpileJSForDev = () => {
@@ -71,7 +71,7 @@ let transpileJSForProd = () => {
     return src(`dev/js/*.js`)
         .pipe(babel())
         .pipe(jsCompressor())
-        .pipe(dest(`prod/scripts`));
+        .pipe(dest(`prod/js`));
 };
 
 let lintJS = () => {
@@ -111,19 +111,6 @@ let copyUnprocessedAssetsForProd = () => {
     ], {dot: true}).pipe(dest(`prod`));
 };
 
-let compressImages = () => {
-    return src(`dev/img/**/*`)
-        .pipe(cache(
-            imageCompressor({
-                optimizationLevel: 3, // For PNG files. Accepts 0 – 7; 3 is default.
-                progressive: true,    // For JPG files.
-                multipass: false,     // For SVG files. Set to true for compression.
-                interlaced: false     // For GIF files. Set to true for compression.
-            })
-        ))
-        .pipe(dest(`prod/img`));
-};
-
 let serve = () => {
     browserSync({
         notify: true,
@@ -136,19 +123,17 @@ let serve = () => {
         }
     });
 
-    watch(`dev/scripts/*.js`,
+    watch(`dev/js/*.js`,
         series(lintJS, transpileJSForDev)
     ).on(`change`, reload);
 
-    watch(`dev/styles/**/*.scss`,
+    watch(`dev/css/**/*.scss`,
         series(compileCSSForDev)
     ).on(`change`, reload);
 
-    watch(`dev/html/**/*.html`,
+    watch(`dev/index.html`,
         series(validateHTML)
     ).on(`change`, reload);
-
-    watch(`dev/img/**/*`).on(`change`, reload);
 };
 
 async function clean() {
