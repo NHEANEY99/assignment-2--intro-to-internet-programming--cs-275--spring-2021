@@ -6,7 +6,6 @@ const htmlCompressor = require(`gulp-htmlmin`);
 const htmlValidator = require(`gulp-html`);
 const jsLinter = require(`gulp-eslint`);
 const jsCompressor = require(`gulp-uglify`);
-const imageCompressor = require(`gulp-imagemin`);
 const cache = require(`gulp-cache`);
 const browserSync = require(`browser-sync`);
 const reload = browserSync.reload;
@@ -78,6 +77,24 @@ let lintJS = () => {
             extends: `eslint:recommended`
         }))
         .pipe(jsLinter.formatEach(`compact`, process.stderr));
+};
+
+let compileCSSForDev = () => {
+    return src(`dev/css/*.css`)
+        .pipe(sass({
+            outputStyle: `expanded`,
+            precision: 10
+        }).on(`error`, sass.logError))
+        .pipe(dest(`dev/styles`));
+};
+
+let compileCSSForProd = () => {
+    return src(`dev/css/*.css`)
+        .pipe(sass({
+            outputStyle: `compressed`,
+            precision: 10
+        }).on(`error`, sass.logError))
+        .pipe(dest(`prod/styles`));
 };
 
 let lintCSS =  () => {
@@ -159,11 +176,13 @@ exports.lintJS = lintJS;
 exports.dev = series(
     validateHTML,
     transpileJSForDev,
+    compileCSSForDev,
     lintCSS,
     lintJS,
     dev
 );
 exports.build = series(
     compressHTML,
-    transpileJSForProd
+    transpileJSForProd,
+    compileCSSForProd
 );
