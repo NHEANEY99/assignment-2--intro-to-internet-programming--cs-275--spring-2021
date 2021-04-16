@@ -49,7 +49,7 @@ let compileCSSForDev = () => {
             outputStyle: `expanded`,
             precision: 10
         }).on(`error`, sass.logError))
-        .pipe(dest(`temp/styles`));
+        .pipe(dest(`dev/css`));
 };
 
 let compileCSSForProd = () => {
@@ -64,7 +64,7 @@ let compileCSSForProd = () => {
 let transpileJSForDev = () => {
     return src(`dev/js/*.js`)
         .pipe(babel())
-        .pipe(dest(`temp/scripts`));
+        .pipe(dest(`dev/js`));
 };
 
 let transpileJSForProd = () => {
