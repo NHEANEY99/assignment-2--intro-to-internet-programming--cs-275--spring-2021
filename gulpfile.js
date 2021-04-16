@@ -198,7 +198,6 @@ exports.build = series(
     compressHTML,
     compileCSSForProd,
     transpileJSForProd,
-    compressImages,
     copyUnprocessedAssetsForProd
 );
 exports.dev = series(

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/NHEANEY99/assignment-2--intro-to-internet-programming--cs-275--spring-2021#readme",
   "devDependencies": {
+    "@babel/core": "^7.13.15",
     "browser-sync": "^2.26.14",
     "csslint": "^1.0.5",
     "del": "^6.0.0",
