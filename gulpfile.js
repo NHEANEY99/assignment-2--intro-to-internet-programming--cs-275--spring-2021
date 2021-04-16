@@ -127,7 +127,7 @@ let compressImages = () => {
 let serve = () => {
     browserSync({
         notify: true,
-        reloadDelay: 50,
+        reloadDelay: 1,
         browser: browserChoice,
         server: {
             baseDir: [
