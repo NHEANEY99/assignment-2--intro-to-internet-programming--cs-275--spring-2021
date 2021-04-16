@@ -131,9 +131,7 @@ let serve = () => {
         browser: browserChoice,
         server: {
             baseDir: [
-                `temp`,
-                `dev`,
-                `dev/html`
+                `dev`
             ]
         }
     });
