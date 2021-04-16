@@ -43,24 +43,6 @@ let compressHTML = () => {
         .pipe(dest(`prod`));
 };
 
-let compileCSSForDev = () => {
-    return src(`dev/css/*.css`)
-        .pipe(sass({
-            outputStyle: `expanded`,
-            precision: 10
-        }).on(`error`, sass.logError))
-        .pipe(dest(`dev/css`));
-};
-
-let compileCSSForProd = () => {
-    return src(`dev/css/style.css`)
-        .pipe(sass({
-            outputStyle: `compressed`,
-            precision: 10
-        }).on(`error`, sass.logError))
-        .pipe(dest(`prod/css`));
-};
-
 let transpileJSForDev = () => {
     return src(`dev/js/*.js`)
         .pipe(babel())
@@ -104,24 +86,11 @@ let lintCSS =  () => {
         .pipe(dest('prod/'));
 };
 
-let copyUnprocessedAssetsForProd = () => {
-    return src([
-        `dev/*.*`,       // Source all files,
-        `dev/**`,        // and all folders,
-        `!dev/html/`,    // but not the HTML folder
-        `!dev/html/*.*`, // or any files in it
-        `!dev/html/**`,  // or any sub folders;
-        `!dev/img/`,     // ignore images;
-        `!dev/**/*.js`,  // ignore JS;
-        `!dev/styles/**` // and, ignore Sass/CSS.
-    ], {dot: true}).pipe(dest(`prod`));
-};
-
-let serve = () => {
+let dev = () => {
     browserSync({
         notify: true,
+        port: 9000,
         reloadDelay: 1,
-        browser: browserChoice,
         server: {
             baseDir: [
                 `dev`
@@ -184,24 +153,17 @@ async function listTasks () {
 
 exports.validateHTML = validateHTML;
 exports.compressHTML = compressHTML;
-exports.compileCSSForDev = compileCSSForDev;
-exports.compileCSSForProd = compileCSSForProd;
 exports.transpileJSForDev = transpileJSForDev;
 exports.transpileJSForProd = transpileJSForProd;
 exports.lintJS = lintJS;
 exports.dev = series(
     validateHTML,
-    compileCSSForDev,
     transpileJSForDev,
     lintCSS,
     lintJS,
+    dev
 );
 exports.build = series(
     compressHTML,
-    compileCSSForProd,
-    transpileJSForProd,
-    copyUnprocessedAssetsForProd
+    transpileJSForProd
 );
-exports.serve = series(compileCSSForDev, lintJS, transpileJSForDev, validateHTML, serve);
-exports.clean = clean;
-exports.default = listTasks;
