@@ -182,10 +182,6 @@ async function listTasks () {
     });
 }
 
-exports.firefox = series(firefox, serve);
-exports.chrome = series(chrome, serve);
-exports.edge = series(edge, serve);
-exports.allBrowsers = series(allBrowsers, serve);
 exports.validateHTML = validateHTML;
 exports.compressHTML = compressHTML;
 exports.compileCSSForDev = compileCSSForDev;
@@ -193,7 +189,6 @@ exports.compileCSSForProd = compileCSSForProd;
 exports.transpileJSForDev = transpileJSForDev;
 exports.transpileJSForProd = transpileJSForProd;
 exports.lintJS = lintJS;
-exports.copyUnprocessedAssetsForProd = copyUnprocessedAssetsForProd;
 exports.build = series(
     compressHTML,
     compileCSSForProd,
