@@ -179,7 +179,6 @@ async function listTasks () {
 exports.firefox = series(firefox, serve);
 exports.chrome = series(chrome, serve);
 exports.edge = series(edge, serve);
-exports.safari = series(safari, serve);
 exports.allBrowsers = series(allBrowsers, serve);
 exports.validateHTML = validateHTML;
 exports.compressHTML = compressHTML;
@@ -196,7 +195,12 @@ exports.build = series(
     compressImages,
     copyUnprocessedAssetsForProd
 );
-exports.compressImages = compressImages;
+exports.dev = series(
+    validateHTML,
+    compressHTML,
+    lintCSS,
+    lintJS
+);
 exports.serve = series(compileCSSForDev, lintJS, transpileJSForDev, validateHTML, serve);
 exports.clean = clean;
 exports.default = listTasks;
