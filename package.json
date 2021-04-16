@@ -18,6 +18,7 @@
   "homepage": "https://github.com/NHEANEY99/assignment-2--intro-to-internet-programming--cs-275--spring-2021#readme",
   "devDependencies": {
     "browser-sync": "^2.26.14",
+    "csslint": "^1.0.5",
     "del": "^6.0.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
