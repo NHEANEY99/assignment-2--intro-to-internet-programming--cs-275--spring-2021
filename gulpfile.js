@@ -110,7 +110,8 @@ let dev = () => {
         reloadDelay: 1,
         server: {
             baseDir: [
-                `dev`
+                `dev`,
+                `./`
             ]
         }
     });
