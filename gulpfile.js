@@ -12,10 +12,6 @@ const browserSync = require(`browser-sync`);
 const reload = browserSync.reload;
 let browserChoice = `default`;
 
-async function safari () {
-    browserChoice = `safari`;
-}
-
 async function firefox () {
     browserChoice = `firefox`;
 }
@@ -24,20 +20,14 @@ async function chrome () {
     browserChoice = `google chrome`;
 }
 
-async function opera () {
-    browserChoice = `opera`;
-}
-
 async function edge () {
     browserChoice = `microsoft-edge`;
 }
 
 async function allBrowsers () {
     browserChoice = [
-        `safari`,
         `firefox`,
         `google chrome`,
-        `opera`,
         `microsoft-edge`
     ];
 }
@@ -206,10 +196,8 @@ async function listTasks () {
     });
 }
 
-exports.safari = series(safari, serve);
 exports.firefox = series(firefox, serve);
 exports.chrome = series(chrome, serve);
-exports.opera = series(opera, serve);
 exports.edge = series(edge, serve);
 exports.safari = series(safari, serve);
 exports.allBrowsers = series(allBrowsers, serve);
