@@ -33,20 +33,18 @@ async function allBrowsers () {
 }
 
 let validateHTML = () => {
-    return src([
-        `dev/html/*.html`,
-        `dev/html/**/*.html`])
+    return src(`dev/*.html`)
         .pipe(htmlValidator());
 };
 
 let compressHTML = () => {
-    return src([`dev/html/*.html`,`dev/html/**/*.html`])
+    return src(`dev/*.html`)
         .pipe(htmlCompressor({collapseWhitespace: true}))
         .pipe(dest(`prod`));
 };
 
 let compileCSSForDev = () => {
-    return src(`dev/styles/main.scss`)
+    return src(`dev/css/*.css`)
         .pipe(sass({
             outputStyle: `expanded`,
             precision: 10
@@ -55,7 +53,7 @@ let compileCSSForDev = () => {
 };
 
 let compileCSSForProd = () => {
-    return src(`dev/styles/main.scss`)
+    return src(`dev/css/style.css`)
         .pipe(sass({
             outputStyle: `compressed`,
             precision: 10
@@ -64,20 +62,20 @@ let compileCSSForProd = () => {
 };
 
 let transpileJSForDev = () => {
-    return src(`dev/scripts/*.js`)
+    return src(`dev/js/*.js`)
         .pipe(babel())
         .pipe(dest(`temp/scripts`));
 };
 
 let transpileJSForProd = () => {
-    return src(`dev/scripts/*.js`)
+    return src(`dev/js/*.js`)
         .pipe(babel())
         .pipe(jsCompressor())
         .pipe(dest(`prod/scripts`));
 };
 
 let lintJS = () => {
-    return src(`dev/scripts/*.js`)
+    return src(`dev/js/*.js`)
         .pipe(jsLinter({
             parserOptions: {
                 ecmaVersion: 2017,
@@ -129,7 +127,6 @@ let compressImages = () => {
 let serve = () => {
     browserSync({
         notify: true,
-        port: 9000,
         reloadDelay: 50,
         browser: browserChoice,
         server: {
